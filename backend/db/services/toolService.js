@@ -1,17 +1,17 @@
-var userModel = require('../models/user.model');
+var toolModel = require('../models/tool.model');
 
 function getAll(callback) {
-	userModel.find({}, (err, users) => {
+	 toolModel.find({}, (err, tool) => {
 		if (err) {
 			callback(err, null);
 		} else {
-			callback(null, users);
+			 callback(null, tool);
 		}
 	})
 }
 
 function isNew(chatId, callback) {
-	userModel.findOne({ chatId: chatId }, (err, existingUser) => {
+	toolModel.findOne({ chatId: chatId }, (err, existingUser) => {
 		if (err) {
 			callback(err, null);
 			return;
@@ -24,16 +24,19 @@ function isNew(chatId, callback) {
 	});
 }
 
-function saveTool(userInfo, callback) {
-	isNew(userInfo.chatId, (err, result) => {
+function saveTool(toolInfo, callback) {
+	isNew(toolInfo.id, (err, result) => {
 		if (err) {
 			callback(err, null);
 			return;
 		}
 		if (result) {
-			var newUserDto = new userModel(userInfo);
+			var newTool = new toolModel({
+				id: toolInfo.id,
+				answer: toolInfo.answer,
+			});
 
-			newUserDto.save((err) => {
+			newTool.save((err) => {
 				if (err) {
 					callback(err, null);
 				} else {
