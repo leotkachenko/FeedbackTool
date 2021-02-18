@@ -5,8 +5,12 @@ const cors = require("cors");
 const app = express();
 require('./db/mongodb-connection')
 
-const db_service = require('./db/services/toolService')
+const db_service = require('./app/controllers/tools.controller')
 const jsonFile = require('./db/db_tools/tools.json');
+
+const path = __dirname + '/app/views/';
+
+app.use(express.static(path));
 
 
 jsonFile.map(file => db_service.saveTool(file, (saveErr, _) => {
@@ -25,13 +29,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get("/", (req, res) => {
-    db_service.getAll((err, tools) => {
-        if(err) {
-        console.log(err.message);
-        return;
-    }
-    res.json(`Show ${tools.map(i=>i.answer)}`)})})
+// app.get("/", (req, res) => {
+//     db_service.getAll((err, tools) => {
+//         if(err) {
+//         console.log(err.message);
+//         return;
+//     }
+//     res.json(`Show ${tools.map(i=>i.answer)}`)})})
+
+app.get('/', function (req,res) {
+    res.sendFile(path + "index.html");
+  });
+
+require("./app/routes/tools.routes")(app);
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

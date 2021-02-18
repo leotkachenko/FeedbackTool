@@ -7,6 +7,6 @@ var ToolSchema = new Schema({
 	answer: String,
 });
 
-var User = mongoose.model('tool', ToolSchema);
+var Tools = mongoose.model('tool', ToolSchema);
 
-module.exports = User;
+module.exports = Tools;
