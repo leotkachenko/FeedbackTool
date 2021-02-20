@@ -1,16 +1,20 @@
 [{
     "id": "5e363b135036a835ac1a7da8",
-    "answer": "Cat"
+    "answer": "Cat",
+    "result": false
 },
 {
     "id": "5e363b135036a835ac1a7da9",
-    "answer": "Dog"
+    "answer": "Dog",
+    "result": true
 },
 {
     "id": "5e363b135036a835ac1a7da10",
-    "answer": "Mouse"
+    "answer": "Mouse",
+    "result": false
 },
 {
     "id": "5e363b135036a835ac1a7da11",
-    "answer": "Rabbit"
+    "answer": "Rabbit",
+    "result": false
 }]

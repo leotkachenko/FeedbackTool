@@ -1,1 +1,53 @@
-<p>tool-list works!</p>
+<div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by answer"
+          [(ngModel)]="answer"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Tutorials List</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let tool of tools; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveTutorial(tool, i)"
+        >
+          {{ tool.answer }}
+        </li>
+      </ul>
+  
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="currentTool">
+        <h4>Tutorial</h4>
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTool }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          {{ currentTool }}
+        </div>
+      </div>
+  
+      <div *ngIf="!currentTool">
+        <br />
+        <p>Please click on a Tutorial...</p>
+      </div>
+    </div>
+  </div>
+  

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const baseUrl = 'http://localhost:8082/api/tools';
+const baseUrl = 'http://localhost:8081/api/tools';
 
 @Injectable({
   providedIn: 'root'
@@ -11,5 +11,8 @@ export class ToolService {
   constructor(private http: HttpClient) { }
   getAll() {
     return this.http.get(baseUrl);
+  }
+  findByTitle(answer: string) {
+    return this.http.get(`${baseUrl}?answer=${answer}`);
   }
 }

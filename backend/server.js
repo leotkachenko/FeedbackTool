@@ -29,19 +29,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.get('/', function (req,res) {
+    res.sendFile(path + "index.html");
+  });
+
 // app.get("/", (req, res) => {
 //     db_service.getAll((err, tools) => {
 //         if(err) {
 //         console.log(err.message);
 //         return;
 //     }
-//     res.json(`Show ${tools.map(i=>i.answer)}`)})})
-
-app.get('/', function (req,res) {
-    res.sendFile(path + "index.html");
-  });
-
+//     res.json(tools.map(i=>i.answer))})})
 require("./app/routes/tools.routes")(app);
+
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

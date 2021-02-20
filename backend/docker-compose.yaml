@@ -1,6 +1,6 @@
 version: '2.0'
 services: 
-  bot:
+  backend:
     build: .
     image: leonid97/cisco_backend:latest
     ports:

@@ -10,7 +10,7 @@ function getAll(callback) {
 	})
 }
 
-const findAll = (req, res) => {
+function findAll(req, res){
   toolModel.find({})
     .then(data => {
       res.send(data);
@@ -66,5 +66,6 @@ module.exports = {
 	getAll,
 	isNew,
   saveTool,
-  findAll
+  findAll:findAll,
+
 };
