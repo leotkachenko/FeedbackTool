@@ -46,7 +46,9 @@ function saveTool(toolInfo, callback) {
 		if (result) {
 			var newTool = new toolModel({
 				id: toolInfo.id,
-				answer: toolInfo.answer,
+        answer: toolInfo.answer,
+        result: toolInfo.result,
+        description: toolInfo.description,
 			});
 
 			newTool.save((err) => {

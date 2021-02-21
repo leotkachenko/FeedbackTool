@@ -7,11 +7,17 @@ import { ToolListComponent } from './components/tool-list/tool-list.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RightResponseComponent } from './components/right-response/right-response.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolListComponent
+    ToolListComponent,
+    RightResponseComponent,
+    FeedbackComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +26,6 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

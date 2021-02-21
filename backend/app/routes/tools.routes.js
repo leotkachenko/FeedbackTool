@@ -1,5 +1,6 @@
 module.exports = app => {
-  const tools_get_all = require('../controllers/tools.controller')
+  const tools_controller = require('../controllers/tools.controller')
+  const file_controller = require('../controllers/files.controller')
 
   var router = require("express").Router();
   // Retrieve all Tutorials
@@ -9,7 +10,10 @@ module.exports = app => {
   //         console.log(err.message);
   //         return;
   //     }
-  router.get("/", tools_get_all.findAll);
+  router.get("/", tools_controller.findAll);
+  router.post("/upload", file_controller.upload);
+  router.get("/files", file_controller.getListFiles);
+  router.get("/files/:name", file_controller.download);
   //     res.json(`Show ${tools.map(i=>i.answer)}`)})})
   // router.get("/", (req, res) => {
   //       db_service.getAll((err, tools) => {

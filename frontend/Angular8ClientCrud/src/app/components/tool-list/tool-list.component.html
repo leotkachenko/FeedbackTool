@@ -1,25 +1,6 @@
 <div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by answer"
-          [(ngModel)]="answer"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            (click)="searchTitle()"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <h4>Tutorials List</h4>
+    <div class="intro">
+      <h4>What is the best animal in the world?</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
@@ -32,16 +13,17 @@
       </ul>
   
     </div>
-    <div class="col-md-6">
+    <div class="intro">
       <div *ngIf="currentTool">
         <h4>Tutorial</h4>
         <div>
-          <label><strong>Title:</strong></label> {{ currentTool }}
+          <label><strong>Title:</strong></label> {{ currentTool.answer }}
         </div>
         <div>
           <label><strong>Description:</strong></label>
-          {{ currentTool }}
+          {{ currentTool.description }}
         </div>
+        <a routerLink="/correct"><button class="btn btn-success pull-right" >Submit</button></a>
       </div>
   
       <div *ngIf="!currentTool">
@@ -49,5 +31,7 @@
         <p>Please click on a Tutorial...</p>
       </div>
     </div>
+    <a routerLink="/feedback"><button class="button" style="vertical-align:middle"><span>Feedback </span></button></a>
+    <a routerLink="/upload"><button class="button" style="vertical-align:middle"><span>Upload Image</span></button></a>
   </div>
   

@@ -12,7 +12,4 @@ export class ToolService {
   getAll() {
     return this.http.get(baseUrl);
   }
-  findByTitle(answer: string) {
-    return this.http.get(`${baseUrl}?answer=${answer}`);
-  }
 }
