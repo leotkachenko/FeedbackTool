@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToolService } from 'src/app/services/tool.service';
+import { FormGroup, FormBuilder, FormControl, Validators, NgForm } from '@angular/forms'
 
 @Component({
   selector: 'app-tool-list',
@@ -12,11 +13,13 @@ export class ToolListComponent implements OnInit {
   currentTool = null;
   currentIndex = -1;
   title = '';
+  FormData: FormGroup;
 
-  constructor(private toolService: ToolService) { }
+  constructor(private toolService: ToolService, private builder: FormBuilder) { }
 
   ngOnInit() {
     this.retrieveTutorials();
+    this.FormData = this.builder.group({});
   }
 
   retrieveTutorials() {
@@ -40,5 +43,22 @@ export class ToolListComponent implements OnInit {
   setActiveTutorial(tool:any, index:any) {
     this.currentTool = tool;
     this.currentIndex = index;
+    this.FormData = this.builder.group({
+      id: tool._id,
+      answer: tool.answer,
+      description: tool.description
+    });
+  }
+
+  onSubmit(FormData) {
+    console.log(FormData)
+    this.toolService.PostMessage(FormData)
+      .subscribe(response => {
+        location.href = 'http://localhost:8081/#/correct'
+        console.log(response)
+      }, error => {
+        console.warn(error.responseText)
+        console.log({ error })
+      })
   }
 }

@@ -29,7 +29,7 @@ export class UploadFileService {
   }
 
   PostMessage(input: any) {
-    return this.http.post(this.baseUrl, input, {
+    return this.http.post(`${this.baseUrl}/upload/file`, input, {
       reportProgress: true,
       responseType: 'json'
     })

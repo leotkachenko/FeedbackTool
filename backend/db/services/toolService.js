@@ -24,7 +24,6 @@ function saveTool(toolInfo, callback) {
 			var newTool = new toolModel({
 				id: toolInfo.id,
         answer: toolInfo.answer,
-        result: toolInfo.result,
         description: toolInfo.description,
 			});
 

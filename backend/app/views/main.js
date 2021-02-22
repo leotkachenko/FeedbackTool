@@ -156,7 +156,7 @@ class UploadFileService {
         return this.http.get(`${this.baseUrl}/files`);
     }
     PostMessage(input) {
-        return this.http.post(this.baseUrl, input, {
+        return this.http.post(`${this.baseUrl}/upload/file`, input, {
             reportProgress: true,
             responseType: 'json'
         });
@@ -242,8 +242,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToolListComponent", function() { return ToolListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var src_app_services_tool_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/services/tool.service */ "rllv");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
+
 
 
 
@@ -263,6 +265,7 @@ function ToolListComponent_li_5_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", tool_r3.answer, " ");
 } }
 function ToolListComponent_div_7_Template(rf, ctx) { if (rf & 1) {
+    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h4");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Tutorial");
@@ -283,9 +286,12 @@ function ToolListComponent_div_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "a", 9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "button", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, "Submit");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "form", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngSubmit", function ToolListComponent_div_7_Template_form_ngSubmit_13_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r7.onSubmit(ctx_r7.FormData.value); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "button", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16, " Submit ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -295,6 +301,10 @@ function ToolListComponent_div_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r1.currentTool.answer, " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r1.currentTool.description, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("formGroup", ctx_r1.FormData);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", !ctx_r1.FormData.valid);
 } }
 function ToolListComponent_div_8_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
@@ -305,14 +315,16 @@ function ToolListComponent_div_8_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 class ToolListComponent {
-    constructor(toolService) {
+    constructor(toolService, builder) {
         this.toolService = toolService;
+        this.builder = builder;
         this.currentTool = null;
         this.currentIndex = -1;
         this.title = '';
     }
     ngOnInit() {
         this.retrieveTutorials();
+        this.FormData = this.builder.group({});
     }
     retrieveTutorials() {
         this.toolService.getAll()
@@ -331,10 +343,26 @@ class ToolListComponent {
     setActiveTutorial(tool, index) {
         this.currentTool = tool;
         this.currentIndex = index;
+        this.FormData = this.builder.group({
+            id: tool._id,
+            answer: tool.answer,
+            description: tool.description
+        });
+    }
+    onSubmit(FormData) {
+        console.log(FormData);
+        this.toolService.PostMessage(FormData)
+            .subscribe(response => {
+            location.href = 'http://localhost:8081/#/correct';
+            console.log(response);
+        }, error => {
+            console.warn(error.responseText);
+            console.log({ error });
+        });
     }
 }
-ToolListComponent.ɵfac = function ToolListComponent_Factory(t) { return new (t || ToolListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_services_tool_service__WEBPACK_IMPORTED_MODULE_1__["ToolService"])); };
-ToolListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ToolListComponent, selectors: [["app-tool-list"]], decls: 17, vars: 3, consts: [[1, "list", "row"], [1, "intro"], [1, "list-group"], ["class", "list-group-item", 3, "active", "click", 4, "ngFor", "ngForOf"], [4, "ngIf"], ["routerLink", "/feedback"], [1, "button", 2, "vertical-align", "middle"], ["routerLink", "/upload"], [1, "list-group-item", 3, "click"], ["routerLink", "/correct"], [1, "btn", "btn-success", "pull-right"]], template: function ToolListComponent_Template(rf, ctx) { if (rf & 1) {
+ToolListComponent.ɵfac = function ToolListComponent_Factory(t) { return new (t || ToolListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_services_tool_service__WEBPACK_IMPORTED_MODULE_1__["ToolService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"])); };
+ToolListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ToolListComponent, selectors: [["app-tool-list"]], decls: 17, vars: 3, consts: [[1, "list", "row"], [1, "intro"], [1, "list-group"], ["class", "list-group-item", 3, "active", "click", 4, "ngFor", "ngForOf"], [4, "ngIf"], ["routerLink", "/feedback"], [1, "button", 2, "vertical-align", "middle"], ["routerLink", "/upload"], [1, "list-group-item", 3, "click"], [3, "formGroup", "ngSubmit"], [1, "form-group"], ["type", "submit", 1, "btn", "btn-primary", 3, "disabled"]], template: function ToolListComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "h4");
@@ -345,7 +373,7 @@ ToolListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ToolListComponent_div_7_Template, 16, 2, "div", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ToolListComponent_div_7_Template, 17, 4, "div", 4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, ToolListComponent_div_8_Template, 4, 0, "div", 4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "a", 5);
@@ -370,7 +398,7 @@ ToolListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.currentTool);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.currentTool);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterLinkWithHref"]], styles: [".list[_ngcontent-%COMP%] {\n    text-align: left;\n    max-width: 750px;\n    margin: auto;\n  }\n  .intro[_ngcontent-%COMP%] {\n  }\n  .button[_ngcontent-%COMP%] {\n    display: inline-block;\n    border-radius: 4px;\n    background-color: #ffffff;\n    border: none;\n    color: #000000;\n    text-align: center;\n    font-size: 20px;\n    padding: 20px;\n    width: 200px;\n    transition: all 0.5s;\n    cursor: pointer;\n    margin: 5px;\n  }\n  .button[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n    cursor: pointer;\n    display: inline-block;\n    position: relative;\n    transition: 0.5s;\n  }\n  .button[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:after {\n    content: '\\00bb';\n    position: absolute;\n    opacity: 0;\n    top: 0;\n    right: -20px;\n    transition: 0.5s;\n  }\n  .button[_ngcontent-%COMP%]:hover   span[_ngcontent-%COMP%] {\n    padding-right: 25px;\n  }\n  .button[_ngcontent-%COMP%]:hover   span[_ngcontent-%COMP%]:after {\n    opacity: 1;\n    right: 0;\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRvb2wtbGlzdC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksZ0JBQWdCO0lBQ2hCLGdCQUFnQjtJQUNoQixZQUFZO0VBQ2Q7RUFDQTtFQUNBO0VBQ0E7SUFDRSxxQkFBcUI7SUFDckIsa0JBQWtCO0lBQ2xCLHlCQUF5QjtJQUN6QixZQUFZO0lBQ1osY0FBYztJQUNkLGtCQUFrQjtJQUNsQixlQUFlO0lBQ2YsYUFBYTtJQUNiLFlBQVk7SUFDWixvQkFBb0I7SUFDcEIsZUFBZTtJQUNmLFdBQVc7RUFDYjtFQUVBO0lBQ0UsZUFBZTtJQUNmLHFCQUFxQjtJQUNyQixrQkFBa0I7SUFDbEIsZ0JBQWdCO0VBQ2xCO0VBRUE7SUFDRSxnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixNQUFNO0lBQ04sWUFBWTtJQUNaLGdCQUFnQjtFQUNsQjtFQUVBO0lBQ0UsbUJBQW1CO0VBQ3JCO0VBRUE7SUFDRSxVQUFVO0lBQ1YsUUFBUTtFQUNWIiwiZmlsZSI6InRvb2wtbGlzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxpc3Qge1xuICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgbWF4LXdpZHRoOiA3NTBweDtcbiAgICBtYXJnaW46IGF1dG87XG4gIH1cbiAgLmludHJvIHtcbiAgfVxuICAuYnV0dG9uIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgYm9yZGVyLXJhZGl1czogNHB4O1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7XG4gICAgYm9yZGVyOiBub25lO1xuICAgIGNvbG9yOiAjMDAwMDAwO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBmb250LXNpemU6IDIwcHg7XG4gICAgcGFkZGluZzogMjBweDtcbiAgICB3aWR0aDogMjAwcHg7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuNXM7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIG1hcmdpbjogNXB4O1xuICB9XG4gIFxuICAuYnV0dG9uIHNwYW4ge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRyYW5zaXRpb246IDAuNXM7XG4gIH1cbiAgXG4gIC5idXR0b24gc3BhbjphZnRlciB7XG4gICAgY29udGVudDogJ1xcMDBiYic7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG9wYWNpdHk6IDA7XG4gICAgdG9wOiAwO1xuICAgIHJpZ2h0OiAtMjBweDtcbiAgICB0cmFuc2l0aW9uOiAwLjVzO1xuICB9XG4gIFxuICAuYnV0dG9uOmhvdmVyIHNwYW4ge1xuICAgIHBhZGRpbmctcmlnaHQ6IDI1cHg7XG4gIH1cbiAgXG4gIC5idXR0b246aG92ZXIgc3BhbjphZnRlciB7XG4gICAgb3BhY2l0eTogMTtcbiAgICByaWdodDogMDtcbiAgfSJdfQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLinkWithHref"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroupDirective"]], styles: [".list[_ngcontent-%COMP%] {\n    text-align: left;\n    max-width: 750px;\n    margin: auto;\n  }\n  .intro[_ngcontent-%COMP%] {\n  }\n  .button[_ngcontent-%COMP%] {\n    display: inline-block;\n    border-radius: 4px;\n    background-color: #ffffff;\n    border: none;\n    color: #000000;\n    text-align: center;\n    font-size: 20px;\n    padding: 20px;\n    width: 200px;\n    transition: all 0.5s;\n    cursor: pointer;\n    margin: 5px;\n  }\n  .button[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n    cursor: pointer;\n    display: inline-block;\n    position: relative;\n    transition: 0.5s;\n  }\n  .button[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:after {\n    content: '\\00bb';\n    position: absolute;\n    opacity: 0;\n    top: 0;\n    right: -20px;\n    transition: 0.5s;\n  }\n  .button[_ngcontent-%COMP%]:hover   span[_ngcontent-%COMP%] {\n    padding-right: 25px;\n  }\n  .button[_ngcontent-%COMP%]:hover   span[_ngcontent-%COMP%]:after {\n    opacity: 1;\n    right: 0;\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRvb2wtbGlzdC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksZ0JBQWdCO0lBQ2hCLGdCQUFnQjtJQUNoQixZQUFZO0VBQ2Q7RUFDQTtFQUNBO0VBQ0E7SUFDRSxxQkFBcUI7SUFDckIsa0JBQWtCO0lBQ2xCLHlCQUF5QjtJQUN6QixZQUFZO0lBQ1osY0FBYztJQUNkLGtCQUFrQjtJQUNsQixlQUFlO0lBQ2YsYUFBYTtJQUNiLFlBQVk7SUFDWixvQkFBb0I7SUFDcEIsZUFBZTtJQUNmLFdBQVc7RUFDYjtFQUVBO0lBQ0UsZUFBZTtJQUNmLHFCQUFxQjtJQUNyQixrQkFBa0I7SUFDbEIsZ0JBQWdCO0VBQ2xCO0VBRUE7SUFDRSxnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixNQUFNO0lBQ04sWUFBWTtJQUNaLGdCQUFnQjtFQUNsQjtFQUVBO0lBQ0UsbUJBQW1CO0VBQ3JCO0VBRUE7SUFDRSxVQUFVO0lBQ1YsUUFBUTtFQUNWIiwiZmlsZSI6InRvb2wtbGlzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxpc3Qge1xuICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgbWF4LXdpZHRoOiA3NTBweDtcbiAgICBtYXJnaW46IGF1dG87XG4gIH1cbiAgLmludHJvIHtcbiAgfVxuICAuYnV0dG9uIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgYm9yZGVyLXJhZGl1czogNHB4O1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmY7XG4gICAgYm9yZGVyOiBub25lO1xuICAgIGNvbG9yOiAjMDAwMDAwO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBmb250LXNpemU6IDIwcHg7XG4gICAgcGFkZGluZzogMjBweDtcbiAgICB3aWR0aDogMjAwcHg7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuNXM7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIG1hcmdpbjogNXB4O1xuICB9XG4gIFxuICAuYnV0dG9uIHNwYW4ge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRyYW5zaXRpb246IDAuNXM7XG4gIH1cbiAgXG4gIC5idXR0b24gc3BhbjphZnRlciB7XG4gICAgY29udGVudDogJ1xcMDBiYic7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG9wYWNpdHk6IDA7XG4gICAgdG9wOiAwO1xuICAgIHJpZ2h0OiAtMjBweDtcbiAgICB0cmFuc2l0aW9uOiAwLjVzO1xuICB9XG4gIFxuICAuYnV0dG9uOmhvdmVyIHNwYW4ge1xuICAgIHBhZGRpbmctcmlnaHQ6IDI1cHg7XG4gIH1cbiAgXG4gIC5idXR0b246aG92ZXIgc3BhbjphZnRlciB7XG4gICAgb3BhY2l0eTogMTtcbiAgICByaWdodDogMDtcbiAgfSJdfQ== */"] });
 
 
 /***/ }),
@@ -485,6 +513,7 @@ class UploadFileComponent {
         this.builder = builder;
         this.progress = 0;
         this.message = '';
+        this.files = [];
     }
     ngOnInit() {
         this.fileInfos = this.uploadService.getFiles();
@@ -503,14 +532,15 @@ class UploadFileComponent {
                 this.progress = Math.round(100 * event.loaded / event.total);
             }
             else if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpResponse"]) {
+                this.files.push(this.currentFile.name);
+                console.log(this.files);
                 this.message = event.body.message;
                 this.fileInfos = this.uploadService.getFiles();
-                console.log(this.selectedFiles);
+                this.FormData = this.builder.group({
+                    tittle: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]),
+                    file: [this.files]
+                });
             }
-            this.FormData = this.builder.group({
-                tittle: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]),
-                file: this.uploadService.getFiles()
-            });
         }, err => {
             this.progress = 0;
             this.message = 'Could not upload the file!';
@@ -519,6 +549,7 @@ class UploadFileComponent {
         this.selectedFiles = undefined;
     }
     onSubmit(FormData) {
+        console.log(this.files);
         console.log(FormData);
         this.uploadService.PostMessage(FormData)
             .subscribe(response => {
@@ -598,10 +629,10 @@ __webpack_require__.r(__webpack_exports__);
 class FeedbackService {
     constructor(http) {
         this.http = http;
-        this.mailApi = 'http://localhost:8081/api/tools/feedback';
+        this.base = 'http://localhost:8081/api/tools/feedback';
     }
     PostMessage(input) {
-        return this.http.post(this.mailApi, input, {
+        return this.http.post(this.base, input, {
             reportProgress: true,
             responseType: 'json'
         });
@@ -631,9 +662,16 @@ const baseUrl = 'http://localhost:8081/api/tools';
 class ToolService {
     constructor(http) {
         this.http = http;
+        this.base = 'http://localhost:8081/api/tools/save';
     }
     getAll() {
         return this.http.get(baseUrl);
+    }
+    PostMessage(input) {
+        return this.http.post(this.base, input, {
+            reportProgress: true,
+            responseType: 'json'
+        });
     }
 }
 ToolService.ɵfac = function ToolService_Factory(t) { return new (t || ToolService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };

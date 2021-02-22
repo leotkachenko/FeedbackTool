@@ -8,6 +8,6 @@ let ToolSchema = new Schema({
 	description: String,
 });
 
-let Tools = mongoose.model('tool', ToolSchema);
+let Tools = mongoose.model('toolResponse', ToolSchema);
 
 module.exports = Tools;

@@ -5,12 +5,12 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class FeedbackService {
-  private mailApi = 'http://localhost:8081/api/tools/feedback'
+  private base = 'http://localhost:8081/api/tools/feedback'
 
   constructor(private http: HttpClient) { }
 
   PostMessage(input: any) {
-    return this.http.post(this.mailApi, input, {
+    return this.http.post(this.base, input, {
       reportProgress: true,
       responseType: 'json'
     })

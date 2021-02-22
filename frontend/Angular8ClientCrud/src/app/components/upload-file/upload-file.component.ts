@@ -15,6 +15,7 @@ export class UploadFileComponent implements OnInit {
   currentFile: File;
   progress = 0;
   message = '';
+  files = [];
 
   fileInfos: Observable<any> | undefined;
 
@@ -39,14 +40,15 @@ export class UploadFileComponent implements OnInit {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
+          this.files.push(this.currentFile.name)
+          console.log(this.files)
           this.message = event.body.message;
           this.fileInfos = this.uploadService.getFiles();
-          console.log(this.selectedFiles)
+          this.FormData = this.builder.group({
+            tittle: new FormControl('', [Validators.required]),
+            file: [this.files]
+          });
         }
-        this.FormData = this.builder.group({
-          tittle: new FormControl('', [Validators.required]),
-          file: this.uploadService.getFiles()
-        });
       },
       err => {
         this.progress = 0;
@@ -57,6 +59,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   onSubmit(FormData) {
+    console.log(this.files)
     console.log(FormData)
     this.uploadService.PostMessage(FormData)
       .subscribe(response => {
