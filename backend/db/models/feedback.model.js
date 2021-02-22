@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const { Schema } = mongoose;
 
-var FeedBackSchema = new Schema({
-	tittle: String,
-	summary: String,
+const FeedBackSchema = new Schema({
+  tittle: String,
+  summary: String,
 });
 
-var FeedBack = mongoose.model('feedback', FeedBackSchema);
+const FeedBack = mongoose.model('feedback', FeedBackSchema);
 
 module.exports = FeedBack;

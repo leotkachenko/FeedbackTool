@@ -1,13 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const { Schema } = mongoose;
 
-let ToolSchema = new Schema({
-	id: String,
-	answer: String,
-	description: String,
+const ToolSchema = new Schema({
+  id: String,
+  answer: String,
+  description: String,
 });
 
-let Tools = mongoose.model('tool', ToolSchema);
+const Tools = mongoose.model('tool', ToolSchema);
 
 module.exports = Tools;

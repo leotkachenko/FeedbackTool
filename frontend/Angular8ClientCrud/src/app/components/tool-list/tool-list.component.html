@@ -15,7 +15,7 @@
     </div>
     <div class="intro">
       <div *ngIf="currentTool">
-        <h4>Tutorial</h4>
+        <h4>Tool</h4>
         <div>
           <label><strong>Title:</strong></label> {{ currentTool.answer }}
         </div>
@@ -39,7 +39,7 @@
   
       <div *ngIf="!currentTool">
         <br />
-        <p>Please click on a Tutorial...</p>
+        <p>Please click on a Tool...</p>
       </div>
     </div>
     <a routerLink="/feedback"><button class="button" style="vertical-align:middle"><span>Feedback </span></button></a>

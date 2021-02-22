@@ -31,7 +31,8 @@
         <a href="{{ file.url }}">{{ file.name }}</a>
       </li>
     </ul>
-  <form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+  </div>
+  <div><form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
     <div class="form-group">
         <label for="tittle">Tittle</label>
         <input
@@ -48,5 +49,4 @@
             >
               Submit
             </button>
-        </form>
-  </div>
+        </form></div>
