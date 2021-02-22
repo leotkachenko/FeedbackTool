@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 require('./db/mongodb-connection')
 
-const db_service = require('./app/controllers/tools.controller')
+const db_service = require('./db/services/toolService')
 const jsonFile = require('./db/db_tools/tools.json');
 
 const path = __dirname + '/app/views/';

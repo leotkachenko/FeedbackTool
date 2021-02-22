@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToolListComponent } from './components/tool-list/tool-list.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RightResponseComponent } from './components/right-response/right-response.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { FeedbackService } from './services/feedback.service'
 
 @NgModule({
   declarations: [
@@ -17,12 +18,13 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     ToolListComponent,
     RightResponseComponent,
     FeedbackComponent,
-    UploadFileComponent
+    UploadFileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [],

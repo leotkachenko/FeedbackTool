@@ -15,7 +15,7 @@
     <input type="file" (change)="selectFile($event)" />
   </label>
   
-  <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">
+  <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">
     Upload
   </button>
   
@@ -31,4 +31,22 @@
         <a href="{{ file.url }}">{{ file.name }}</a>
       </li>
     </ul>
+  <form [formGroup]="FormData" (ngSubmit)="onSubmit(FormData.value)">
+    <div class="form-group">
+        <label for="tittle">Tittle</label>
+        <input
+        class="form-control"
+        formControlName="tittle"
+        name="tittle"
+        />
+      </div>
+    <button
+              
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!FormData.valid"
+            >
+              Submit
+            </button>
+        </form>
   </div>

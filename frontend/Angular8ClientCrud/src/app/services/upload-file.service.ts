@@ -27,4 +27,11 @@ export class UploadFileService {
   getFiles(): Observable<any> {
     return this.http.get(`${this.baseUrl}/files`);
   }
+
+  PostMessage(input: any) {
+    return this.http.post(this.baseUrl, input, {
+      reportProgress: true,
+      responseType: 'json'
+    })
+  }
 }

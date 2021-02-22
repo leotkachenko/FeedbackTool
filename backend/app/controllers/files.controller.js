@@ -1,6 +1,7 @@
 const uploadFile = require("../middleware/upload");
+const path = require('path')
 const fs = require("fs");
-const baseUrl = "http://localhost:8081//api/tools/files/";
+const baseUrl = "http://localhost:8081/api/tools/files/";
 
 const upload = async (req, res) => {
   try {
@@ -29,9 +30,10 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
-  const directoryPath = __dirname+ "/resources/static/assets/uploads/";
+  const directoryPath = path.join(__dirname, '../middleware/uploads');
 
   fs.readdir(directoryPath, function (err, files) {
+      console.log(directoryPath)
     if (err) {
       res.status(500).send({
         message: "Unable to scan files!",

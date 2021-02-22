@@ -1,22 +1,12 @@
-var toolModel = require('../models/tool.model');
+let toolModel = require('../../db/models/tool.model');
 
-function getAll(callback) {
-	 toolModel.find({}, (err, tool) => {
-		if (err) {
-			callback(err, null);
-		} else {
-			 callback(null, tool);
-		}
-	})
-}
-
-function isNew(chatId, callback) {
-	toolModel.findOne({ chatId: chatId }, (err, existingUser) => {
+function isNew(id, callback) {
+	toolModel.findOne({ id: id }, (err, existingTool) => {
 		if (err) {
 			callback(err, null);
 			return;
 		}
-		if (existingUser) {
+		if (existingTool) {
 			callback(null, false);
 		} else {
 			callback(null, true);
@@ -33,7 +23,9 @@ function saveTool(toolInfo, callback) {
 		if (result) {
 			var newTool = new toolModel({
 				id: toolInfo.id,
-				answer: toolInfo.answer,
+        answer: toolInfo.answer,
+        result: toolInfo.result,
+        description: toolInfo.description,
 			});
 
 			newTool.save((err) => {
@@ -50,7 +42,6 @@ function saveTool(toolInfo, callback) {
 }
 
 module.exports = {
-	getAll,
 	isNew,
-	saveTool
+  saveTool,
 };
