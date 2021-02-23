@@ -15,11 +15,11 @@ function findAll(req, res) {
 }
 
 function saveTool(req, res) {
-  toolResponseService.saveToolToDB(req.body, (saveErr, _) => {
+  toolResponseService.saveToolToDB(req.body, (saveErr) => {
     if (saveErr) {
       res.status(500).send({
         message:
-                err.message || 'Unable to save feedback',
+        saveErr.message || 'Unable to save feedback',
       });
     } else res.status(200).send({ message: 'Successfully saved ' });
   });

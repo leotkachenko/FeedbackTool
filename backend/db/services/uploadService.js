@@ -1,7 +1,7 @@
-const uploadModel = require('../models/feedback.model');
+const UploadModel = require('../models/feedback.model');
 
 function saveUploadToDB(uploadInfo, callback) {
-  const newInfo = new uploadModel({
+  const newInfo = new UploadModel({
     tittle: uploadInfo.tittle,
     file: uploadInfo.file,
 

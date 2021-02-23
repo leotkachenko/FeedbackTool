@@ -1,24 +1,17 @@
-module.exports = (app) => {
-  const tools_controller = require('../controllers/tools.controller');
-  const file_controller = require('../controllers/files.controller');
-  const feedback_controller = require('../controllers/feedback.controller');
-  const upload_controller = require('../controllers/upload.controller');
+const router = require('express').Router();
+const toolsController = require('../controllers/tools.controller');
+const fileController = require('../controllers/files.controller');
+const feedbackController = require('../controllers/feedback.controller');
+const uploadController = require('../controllers/upload.controller');
 
-  const router = require('express').Router();
-  // Retrieve all Tutorials
-  // app.get("/", (req, res) => {
-  //     db_service.getAll((err, tools) => {
-  //         if(err) {
-  //         console.log(err.message);
-  //         return;
-  //     }
-  router.get('/', tools_controller.findAll);
-  router.post('/save', tools_controller.saveTool);
-  router.post('/upload', file_controller.upload);
-  router.post('/upload/file', upload_controller.saveFile);
-  router.get('/files', file_controller.getListFiles);
-  router.get('/files/:name', file_controller.download);
-  router.post('/feedback', feedback_controller.saveFeedback);
+module.exports = (app) => {
+  router.get('/', toolsController.findAll);
+  router.post('/save', toolsController.saveTool);
+  router.post('/upload', fileController.upload);
+  router.post('/upload/file', uploadController.saveFile);
+  router.get('/files', fileController.getListFiles);
+  router.get('/files/:name', fileController.download);
+  router.post('/feedback', feedbackController.saveFeedback);
 
   app.use('/api/tools', router);
 };

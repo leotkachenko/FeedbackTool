@@ -1,7 +1,7 @@
-const toolModel = require('../models/toolResponse.model');
+const ToolModel = require('../models/toolResponse.model');
 
 function saveToolToDB(toolInfo, callback) {
-  const newTool = new toolModel({
+  const newTool = new ToolModel({
     id: toolInfo.id,
     answer: toolInfo.answer,
     description: toolInfo.description,

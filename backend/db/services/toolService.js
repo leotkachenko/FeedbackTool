@@ -1,7 +1,7 @@
-const toolModel = require('../models/tool.model');
+const ToolModel = require('../models/tool.model');
 
 function isNew(id, callback) {
-  toolModel.findOne({ id }, (err, existingTool) => {
+  ToolModel.findOne({ id }, (err, existingTool) => {
     if (err) {
       callback(err, null);
       return;
@@ -21,15 +21,15 @@ function saveTool(toolInfo, callback) {
       return;
     }
     if (result) {
-      const newTool = new toolModel({
+      const newTool = new ToolModel({
         id: toolInfo.id,
         answer: toolInfo.answer,
         description: toolInfo.description,
       });
 
-      newTool.save((err) => {
-        if (err) {
-          callback(err, null);
+      newTool.save((error) => {
+        if (error) {
+          callback(error, null);
         } else {
           callback(null, true);
         }

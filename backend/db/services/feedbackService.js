@@ -1,7 +1,7 @@
-const feedbackModel = require('../models/feedback.model');
+const FeedbackModel = require('../models/feedback.model');
 
 function saveFeedbackToDB(feedbackInfo, callback) {
-  const newFeedback = new feedbackModel({
+  const newFeedback = new FeedbackModel({
     tittle: feedbackInfo.tittle,
     summary: feedbackInfo.summary,
   });

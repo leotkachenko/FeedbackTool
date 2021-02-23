@@ -8,7 +8,7 @@ const upload = async (req, res) => {
   try {
     await uploadFile(req, res);
 
-    if (req.file == undefined) {
+    if (req.file === undefined) {
       return res.status(400).send({ message: 'Please upload a file!' });
     }
 
@@ -18,7 +18,7 @@ const upload = async (req, res) => {
   } catch (err) {
     console.log(err);
 
-    if (err.code == 'LIMIT_FILE_SIZE') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(500).send({
         message: 'File size cannot be larger than 2MB!',
       });
@@ -42,7 +42,7 @@ const getListFiles = (req, res) => {
     }
 
     const fileInfos = [];
-    if (files != undefined) {
+    if (files !== undefined) {
       files.forEach((file) => {
         fileInfos.push({
           name: file,
