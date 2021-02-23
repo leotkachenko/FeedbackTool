@@ -19,10 +19,16 @@ jsonFile.map((file) => db_service.saveTool(file, (saveErr, _) => {
 }));
 
 const corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://35.184.112.151:8081',
 };
 
 app.use(cors(corsOptions));
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -30,13 +36,6 @@ app.get('/', (req, res) => {
   res.sendFile(`${path}index.html`);
 });
 
-// app.get("/", (req, res) => {
-//     db_service.getAll((err, tools) => {
-//         if(err) {
-//         console.log(err.message);
-//         return;
-//     }
-//     res.json(tools.map(i=>i.answer))})})
 require('./app/routes/tools.routes')(app);
 
 const PORT = process.env.PORT || 8081;

@@ -12,6 +12,5 @@ module.exports = (app) => {
   router.get('/files', fileController.getListFiles);
   router.get('/files/:name', fileController.download);
   router.post('/feedback', feedbackController.saveFeedback);
-
   app.use('/api/tools', router);
 };
