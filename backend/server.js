@@ -19,7 +19,7 @@ jsonFile.map((file) => db_service.saveTool(file, (saveErr, _) => {
 }));
 
 const corsOptions = {
-  origin: 'http://35.184.112.151:8081',
+  origin: '...', // PUT ORIGINS
 };
 
 app.use(cors(corsOptions));
